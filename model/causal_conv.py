@@ -11,7 +11,6 @@ class CausalConv(nn.Module):
     def forward(self, hidden_states):
         hidden_states = self.conv(hidden_states)
 
-        # remove last value for causal convolution
         return hidden_states[:, :, :-1]
 
 

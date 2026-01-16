@@ -17,10 +17,6 @@ class ResidualBlock(nn.Module):
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, hidden_states, ref):
-        """
-        :param hidden_states:
-        :return:
-        """
         clone = hidden_states.clone()
         hidden_states = self.dilated_conv(hidden_states)
         ref = self.conv_ref(ref)
