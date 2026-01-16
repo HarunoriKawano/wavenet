@@ -53,7 +53,7 @@ class ResidualLayer(nn.Module):
             skip_connections.append(skip_connection)
         skip_connection = torch.stack(skip_connections, dim=-1).sum(dim=-1)
 
-        return skip_connection
+        return hidden_states, skip_connection
 
 class ResidualNetwork(nn.Module):
     def __init__(self, res_channels: int, skip_channels: int, num_layers: int):
@@ -63,7 +63,8 @@ class ResidualNetwork(nn.Module):
     def forward(self, hidden_states, ref):
         skip_connections = []
         for layer in self.layers:
-            skip_connections.append(layer(hidden_states, ref))
+            hidden_states, skip_connection = layer(hidden_states, ref)
+            skip_connections.append(skip_connection)
         skip_connection = torch.stack(skip_connections, dim=-1).sum(-1)
 
         return skip_connection
